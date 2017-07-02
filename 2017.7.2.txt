@@ -1,0 +1,87 @@
+2017.7.2
+
+### 第一课
+
+Spark SQL  -->   Hive,Pig
+
+Spark Streaming -->    Storm
+
+Spark 提供超过80个类似Map-Reduce这样的操作
+
+Spark Streaming 数据可以来自：kafka, flume, HDFS
+
+
+### Spark的四大特性
+
+* Speed(性能比hadoop Map reduce快数倍)
+* Ease of Use(易用性)
+
+推荐使用java, scala开发
+
+* Generality(通用性)
+* Runs Everywhere
+
+可以运行在hadoop, mesos, standalone, or in the cloud
+
+可以访问HDFS,Cassandra,HBase, and S3 ...
+
+Spark四种部署模式：
+
+hadoop(saprk on yarn，用yarn资源管理器来管理spark的资源，国内主流的模式)
+
+Mesos（也是一个类似yarn的资源管理模式）
+
+standalone模式(spark自己来管理资源，这也是用的较多的一种模式)
+
+in the cloud
+
+
+### 第二课 Spark快速使用
+
+* 启动spark shell
+
+启动spark shell时会自动创建一个spark context为sc, 可以直接使用sc变量
+
+* wordcount演示
+
+```scala
+val file = sc.textFile("/home/hadoop/input/*.txt");
+val rs = file.flatMap(line => line.split(" "))
+.map(word => (word, 1))
+.reduceByKey(_+_)
+
+rs.collect
+
+rs.foreach(i => println(i._1 + " " i._2))
+
+// cache 加载到内存，速度更快
+file.cache()
+.flatMap(line => line.split(" "))
+.map(word => (word, 1))
+.reduceByKey(_+_)
+.collect
+
+```
+
+Spark编程
+
+1. 简单，便捷
+1. 速度很快
+
+
+### 什么是RDD?
+
+Resillient Distributed Dataset,即***弹性分布式数据集***
+
+RDD是被分区的，分为多个分区，每个分区在集群中的不同节点上，从而让RDD中的数据可以被并行操作(分布式数据集)。
+
+RDD提供容错性，可以自动从节点失败中恢复过来。即如果某个节点上的RDD partition，因为节点故障，导致数据丢了，那么RDD会自动通过自己的数据来源重新计算该partition。
+
+RDD的数据默认情况下放在内存中，但是在内存不足的情况下，Spark会自动将RDD数据定稿磁盘。（弹性 == 灵活）
+
+
+
+
+
+
+
