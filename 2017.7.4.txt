@@ -1,0 +1,51 @@
+第七课，spark环境准备
+1. 安装JDK
+2. 安装scala
+3. 安装hadoop(单节点版)
+4. 安装spark
+	1.配置环境变量
+		SPARK_HOME
+		PATH
+	2.配置spark
+		配置spark-env.sh
+		export SPARK_MASTER_IP=hadoop1
+		export SPARK_MASTER_PORT=7077
+		export HADOOP_CONF_DIR=%HADOOP_HOME/etc/hadoop
+		# worker cpu cores and memory
+		export SPARK_WORKER_CORES=2
+		export SPARK_WORKER_MEMORY=2g
+		
+		配置slaves
+		将worker的主机名添加到此文件
+		
+	3. 页面浏览地址
+		hadoop1:8080
+		
+		
+		
+第七课，spark开发环境搭建
+1. 安装jdk
+	java -version
+2. 安装maven
+	mvn -version
+3. 安装eclipse, 配置eclipse maven
+
+4. Scala环境
+	1. 安装scala
+	2. 安装eclipse
+	3. 安装eclipse maven
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
