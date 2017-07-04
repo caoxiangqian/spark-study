@@ -1,0 +1,19 @@
+第四课 Spark架构
+
+driver： 在特定情况下，哪一台服务器提交spark代码，那么哪一台服务器就是driver服务器
+master： master是集群的资源管理和高度者，类似于YARN里面的ResourceManager。还负责监控整个集群的监控状况
+worker： 
+    1. 用自己的内存缓存RDD的数据cache
+	2. 使用内存对partition的数据进行计算
+executor
+task
+
+Standalone模式
+
+Spark采用的主从式的架构，主节点叫master, 从节点叫做worker
+
+1：启动driver,会做一些初始化的工作，在初始化的这个过程中，会发送请求给master,请求注册，这样以后我们的master就知道有活要干了
+2：master接受请求后，发送请求给worker，请求资源高度，即在worker节点上面启动executor
+3: executor启动完成后会向driver反馈信息，这样driver就知道executor启动成功并可以提供服务了
+4：这个时候就可以执行spark任务了，首先创建一个RDD。后面就是对这个RDD进行一个算子的操作，形成不同的RDD，我们会根据对这些RDD的定义，会形成一堆Task任务。比如进行flatMap, map, reduceByKey等等操作。
+
