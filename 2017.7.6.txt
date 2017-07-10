@@ -1,0 +1,19 @@
+第九课：Spark任务提交
+
+在standalone模式下：
+Client：
+	不指定deploy-mode ,默认就是client模式，也就是哪一台服务器提交spark代码，那么哪一台就是driver服务器。
+spark-submit \
+--class cxq.spark.study.WordCount \
+--master spark://hadoop.master:7077 \
+--executor-memory 1024m \
+--total-executor-cores 1 \
+jarPath
+	
+	
+Cluster模式：
+	我们需要指定，driver服务器并不是提交代码的那一台服务器，而是在提交代码的时候，在worker主机上，随机挑选一台作为driver服务器，那么如果提交10个应用，那么就有可能10台driver服务器。
+
+
+	
+	

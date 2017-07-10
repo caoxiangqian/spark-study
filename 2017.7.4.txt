@@ -10,7 +10,7 @@
 		配置spark-env.sh
 		export SPARK_MASTER_IP=hadoop1
 		export SPARK_MASTER_PORT=7077
-		export HADOOP_CONF_DIR=%HADOOP_HOME/etc/hadoop
+		export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 		# worker cpu cores and memory
 		export SPARK_WORKER_CORES=2
 		export SPARK_WORKER_MEMORY=2g
