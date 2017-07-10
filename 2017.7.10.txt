@@ -1,0 +1,16 @@
+第十课： spark historyServer配置
+
+如果spark记录下了一个作业生命周期内的所有事件，那么就会在该作业执行完成之后，我们进入其web ui时，自动用记录的数据
+重新绘制作业的web ui。
+有3个属性我们可以设置
+spark-defaults.conf
+spark.eventLog.enabled  true
+spark.eventLog.dir      hdfs://192.168.32.110:9000/spark-events
+spark.eventLog.compress true
+spark-env.sh
+export SPARK_HISTORY_OPTS="-Dspark.history.ui.port=18080 -Dspark.history.retainedApplications=250 -Dspark.history.fs.logDirectory=hdfs://192.168.32.110:9000/spark-events"
+务必预先创建好hdfs://192.168.0.103:9000/spark-events目录
+而且要注意，spark.eventLog.dir与spark.history.fs.logDirectory指向的必须是同一个目录
+因为spark.eventLog.dir会指定作业事件记录在哪里，spark.history.fs.logDirectory会指定从哪个目录中去读取作业数据
+启动HistoryServer: ./sbin/start-history-server.sh
+访问地址: 192.168.0.103:18080
