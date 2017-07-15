@@ -1,0 +1,25 @@
+第十一课 RDD的创建方式
+
+1. 读取文件
+	a. 读取HDFS上的文件，sc.textFile("hdfs://"),主流方式
+	b. 读取本地的文件，sc.textFile("")
+
+2. 通过并行化的方式创建
+	给常用于自己模拟数据
+	val str = Array("you jump", "i jump")
+	val rdd = sc.parallelize(list)
+	这种方式方便我们去测试跟演示一些功能的时候使用，绝大多数我们使用第一种方式创建RDD
+	
+
+	
+第十二课 Transformation 和 action 原理剖析
+	Spark支持两种RDD操作：transformation 和 action.
+	transformation会针对已有的RDD创建一个新的RDD
+	action则主要是对RDD进行最后的操作，比如遍历， reduce, 保存到文件等，并可以返回结果给Driver程序
+	
+	lazy特性：transformation操作不会触发spark程序的执行，只有执行action操作的才会去执行所有的
+transformation操作。spark通过这种lazy特性，来进行底层的spark应用执行的优化，避免产生过多的中间结果
+	action操作执行，会触发一个spark job的运行，从而触发这个action之前所有的transformation的执行，
+这是action的特性。
+
+

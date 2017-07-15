@@ -71,7 +71,7 @@ Spark编程
 
 第三课：什么是RDD?
 
-Resillient Distributed Dataset,即***弹性分布式数据集***
+Resilient Distributed Dataset,即***弹性分布式数据集***
 
 RDD是被分区的，分为多个分区，每个分区在集群中的不同节点上，从而让RDD中的数据可以被并行操作(分布式数据集)。
 
