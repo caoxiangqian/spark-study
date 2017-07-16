@@ -1,0 +1,6 @@
+第十三课 map, filter, flatMap算子学习
+
+Java 的FlatMapFunction接口中的call方法，在spark 1.x版本返回的是一个可迭代的集合，而在spark 2.x
+版本中返回的是一个迭代器
+
+
