@@ -1,0 +1,31 @@
+029 shuffle 原理剖析
+	
+	何为shuffle:
+		Shuffle是MapReduce框架中的一个特定的phase，介于Map phase和Reduce phase之间，当Map的输出结果
+		要被Reduce使用时，输出结果需要按key哈希，并且分发到每一个Reducer上去，这个过程就是shuffle。
+		由于shuffle涉及到了磁盘的读写和网络的传输，因此shuffle性能的高低直接影响到了整个程
+		序的运行效率。
+		
+		Shuffle过程本质上都是将Map端获得的数据使用分区器进行划分，并将数据发送给对应的 Reducer
+		的过程
+		
+		小结：
+		也就是说每个mapper会根据reducer的数据量，将数据根据key 和 相同的HASH规则散列到每一个
+		reducer上处理，这就能保证每一个mapper上的相同的key只会散列到同一个reducer上，也就是每一个
+		reducer只会处理的key是固定的。最终输出时再将每个reducer的输出合并到一起就得到了最终的结果。
+		
+		
+	Spark shuffle 发展历程：
+		HashShufflerManager
+			1. 未经优化的HashShuffleManager
+			2. 经过优化的HashShuffleManager
+		
+		sortShuffleManager
+			该shuffle分为两种运行机制：
+				普通模式: 
+					mapper将数据写入内存，排序，写入缓冲，如果缓冲达阈值，写入磁盘，最终合并成一
+					个文件
+				pass模式：
+					和普通模式不同的是，不需要排序，所以会减少很多的性能消耗
+		
+		

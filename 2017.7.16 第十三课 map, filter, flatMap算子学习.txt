@@ -4,3 +4,22 @@ Java 的FlatMapFunction接口中的call方法，在spark 1.x版本返回的是�
 版本中返回的是一个迭代器
 
 
+第十四课 groupByKey, reduceByKey, sortByKey算子学习
+
+
+第十五课 join, cogroup, union 片子学习
+
+
+第十六课 intersection, distinct, cartesian 算子学习
+
+	intersection, 交集
+	distinct 去重
+	cartesian 求笛卡尔集
+每十七课 mapPartitions, reparation, coalesce 算子学习
+	
+	mapPartition 
+	reparation， coalesce 重新进行分区 窄依赖， 宽依赖 shuffle
+	
+	filter 过滤之后， partition内的数据量会减少
+	重新分区
+	

@@ -1,0 +1,7 @@
+028 窄依赖和宽依赖
+
+	RDD中将依赖分为两种类型：窄依赖和宽依赖
+	窄依赖：父RDD的每个分区都只被子RDD的一个分区使用，即依赖， 如union, join, map, filter等
+	宽依赖：父RDD的每个分区被多个子RDD的分区使用，即依赖, 如reduceByKey, groupByKey等
+
+	
