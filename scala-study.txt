@@ -1,0 +1,69 @@
+变量声明：
+var 可修改
+val 只能赋值一次
+变量名在前，类型在后
+scala会自动推断数据类型
+var a = 1
+var b:Int = 2  
+val c = 1
+val d:Int = 2
+
+
+scala中{}中包含一系列的表达式，最后一个表达式的值就是块{}的值
+val result = {
+      if (a < 10) 1 else "error"
+    }
+	
+	
+循环
+	scala不支持 ++，-- 操作
+	while, for
+	1 to 2 == [1, 2]
+	1 until == [1, 2)
+	yield
+	
+
+scala没有运算符，都是方法
+
+方法和函数
+	方法
+	def method1(a:Int, b:Int):Int = a + b
+	Unit 无返回值
+	函数和方法可以作为函数和方法的一个参数，这就是所谓的函数式编程
+	
+数组
+	创建一个数组
+	val arr = new Array(10) // 长度为10
+	
+	变长数组
+	ArrayBuffer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
