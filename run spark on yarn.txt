@@ -1,0 +1,14 @@
+提交spark on yarn 模式应用，
+只需要启动hadoop, 无需启动spark集群，即可提交spark应用
+
+提交脚本，尽量写在一行，可防止不必要的错误
+
+./spark-2.1.1-bin-hadoop2.7/bin/spark-submit --class com.cxq.scala.SparkSubmitDemo1 \
+    --master yarn \
+    --deploy-mode cluster \
+    ./spark-core-study-0.1.jar
+	
+	
+./spark-2.1.1-bin-hadoop2.7/bin/spark-submit --class com.cxq.scala.SparkSubmitDemo1 --master yarn --deploy-mode cluster --executor-memory 2G --num-executors 1 ./test.jar
+
+要保证结果目录不存在

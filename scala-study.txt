@@ -37,6 +37,21 @@ scala没有运算符，都是方法
 	
 	变长数组
 	ArrayBuffer
+	
+map操作
+
+元组操作
+	val t = ("hello", 1, 666)
+	t._1
+	t._2
+	t._3
+	对偶的集合转换成映射
+	拉链操作
+	arr1.zip(arr2)
+
+序列
+	list和Array
+	List, ListBuffer
 
 
 

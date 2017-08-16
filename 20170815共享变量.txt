@@ -1,0 +1,4 @@
+共享变量 shared variables
+	广播变量 broadcast variables
+	累加变量 accumulators
+	
