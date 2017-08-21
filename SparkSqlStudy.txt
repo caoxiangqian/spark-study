@@ -1,0 +1,26 @@
+Spark Sql study
+
+发展过程
+hive => hive on spark => spark sql
+
+RDD TO DataFrame(DataSet)
+
+	reflection, 数据格式已知
+	
+	programmatically, 数据格式只能在程序运行时获得
+	
+
+DataFrame 和 RDD的区别
+
+
+数据的load和save
+	数据格式parquet, 通用的面向列的大数据存储格式
+
+parquet文件操作
+	Loading Data Programmatically编程方式加载数据
+	Partition Discovery分区推断
+	Schema Merging元数据合并
+	
+数据源之JSON
+数据源之JDBC
+
