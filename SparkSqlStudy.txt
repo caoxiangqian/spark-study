@@ -23,4 +23,12 @@ parquet文件操作
 	
 数据源之JSON
 数据源之JDBC
+数据源之Hive
+	table-hive环境搭建
+	table-spark环境集成
+	spark-sql --jars /home/hadoop/hive2.1.1/lib/mysql-connector-java-6.0.6.jar
+	
+	使用
+	
+数据源之HBase
 
