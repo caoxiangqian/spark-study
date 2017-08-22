@@ -1,27 +1,43 @@
-map, filter, flatMap算子学习
+map 返回单个结果
 
-Java 的FlatMapFunction接口中的call方法，在spark 1.x版本返回的是一个可迭代的集合，而在spark 2.x
-版本中返回的是一个迭代器
+flatMap  
+	返回多个结果，Java 的FlatMapFunction接口中的call方法，在spark 1.x版本返回的是一个可迭代的集合，而在spark 2.x
+	版本中返回的是一个迭代器
 
-
-groupByKey, reduceByKey, sortByKey算子学习
-
-
-join, cogroup, union 片子学习
-
-
-intersection, distinct, cartesian 算子学习
-
-	intersection, 交集
-	distinct 去重
-	cartesian 求笛卡尔集
-mapPartitions, reparation, coalesce 算子学习
+filter
+	只返回符合条件的数据，过滤之后， partition内的数据量会减少,应重新分区
 	
-	mapPartition 
-	reparation， coalesce 重新进行分区 窄依赖， 宽依赖 shuffle
+groupByKey 根据key进行分组
+reduceByKey
+aggregateByKey   
+ 
+sortByKey 根据key排序
+
+
+join  相当于表的内联接，不会出空记录, 基于cogroup实现
+      类似的操作还有 leftOuterJoin, rightOuterJoin, fullOuterJoin
+cogroup
+  When called on datasets of type (K, V) and (K, W), returns a
+  dataset of (K, (Iterable<V>, Iterable<W>)) tuples. This
+  operation is also called groupWith.
+  不同的rdd内，会根据key对value进行分组，并放入一个集合内，然后返回一个元组，
+  第一个元素是key(K),第二个是values的元组，values._1(Iterable<V>)是第一个rdd的value的集合，
+  values._2(Iterable<W>)是第二个rdd的value的集合
+
+
+union 合并两个RDD
+
+
+intersection 取交集
+distinct 去重	
+cartesian 求笛卡尔集
 	
-	reparation分区会进行shuffle操作，等同于shuffle为true的coalesce
+mapPartition 按分区进行散列
+mapPartitionsWithIndex  回调时传入分区的索引
 	
+reparation
+	分区会触发shuffle操作，等同于coalesce(numPartition, true), shuffle为true的coalesce
+coalesce	
 	rdd.coalesce(m, shuffle)
 		m:  新的分区数
 		shuffler： 是否shuffle
@@ -29,13 +45,15 @@ mapPartitions, reparation, coalesce 算子学习
 		N: 代表原来的分区数据
 		M: 新的分区数据
 			1. N < M 需要将shuffle 设置为true.
-			2. N > M 相差不多， N=1000 M=100 建议shuffle=false, 父RDD和子RDD是窄依赖
+			2. N > M 相差不多， N=1000 M=100 建议shuffle=false, 父RDD和子RDD是窄依赖, 并行数为 M
 			3. N >> M 比如N=100 M=1 建议shuffle设置为true，这样性能更好。
-				设置为false,父RDD和子RDD是窄依赖，它们同在一个stage中。造成任务的并行度不够，从
+				设置为false,父RDD和子RDD是窄依赖，它们同在一个stage中，不会触发shuffle,造成任务的并行度不够，从
 				而速度缓慢。
-		
+repartitionAndSortWithinPartitions
+	分区时会进行排序
+
+sample	采样，withReplacement true: 放回，false: 不放回		
 	
-	
-	
-filter 过滤之后， partition内的数据量会减少,应重新分区
+
+
 	
