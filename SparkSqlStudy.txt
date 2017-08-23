@@ -26,9 +26,18 @@ parquet文件操作
 数据源之Hive
 	table-hive环境搭建
 	table-spark环境集成
-	spark-sql --jars /home/hadoop/hive2.1.1/lib/mysql-connector-java-6.0.6.jar
+		spark-sql --jars /home/hadoop/hive2.1.1/lib/mysql-connector-java-6.0.6.jar
 	
 	使用
 	
 数据源之HBase
+	HBase环境搭建
+		先安装zookeeper
+		
+		ERROR: org.apache.hadoop.hbase.PleaseHoldException: Master is initializing
+			at org.apache.hadoop.hbase.master.HMaster.checkInitialized(HMaster.java:2379)
+
+		先启动regionserver，在启动HMaster。
+		在regionServer上./hbase-daemon.sh start regionserver
+		在master上执行：./bin/hbase-daemon.sh start master
 
