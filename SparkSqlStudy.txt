@@ -29,6 +29,14 @@ parquet文件操作
 		spark-sql --jars /home/hadoop/hive2.1.1/lib/mysql-connector-java-6.0.6.jar
 	
 	使用
+	LOAD DATA [LOCAL] INPATH 'filepath' [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1=val1, partcol2=val2 ...)]
+	
+	drop table people;
+	create table people (id INT, name STRING, address STRING,age INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+	load data local inpath '/home/hadoop/people.txt' OVERWRITE into table people;
+
+	
+	
 	
 数据源之HBase
 	HBase环境搭建
@@ -40,4 +48,10 @@ parquet文件操作
 		先启动regionserver，在启动HMaster。
 		在regionServer上./hbase-daemon.sh start regionserver
 		在master上执行：./bin/hbase-daemon.sh start master
+		
+		添加maven依赖
+			hbase-client
+			hbase-server
+			
+		spark1.6.3时，最好使用scala2.10.x开发
 
