@@ -26,7 +26,7 @@ parquet文件操作
 数据源之Hive
 	table-hive环境搭建
 	table-spark环境集成
-		spark-sql --jars /home/hadoop/hive2.1.1/lib/mysql-connector-java-6.0.6.jar
+		spark-sql --jars $HIVE_HOME/lib/mysql-connector-java-6.0.6.jar
 	
 	使用
 	LOAD DATA [LOCAL] INPATH 'filepath' [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1=val1, partcol2=val2 ...)]
@@ -34,6 +34,8 @@ parquet文件操作
 	drop table people;
 	create table people (id INT, name STRING, address STRING,age INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
 	load data local inpath '/home/hadoop/people.txt' OVERWRITE into table people;
+	load data inpath /user/hadoop/people.txt OVERWRITE into table people;
+	spark on yarn 好多坑
 
 	
 	
@@ -54,4 +56,17 @@ parquet文件操作
 			hbase-server
 			
 		spark1.6.3时，最好使用scala2.10.x开发
+		
+
+thriftserver使用
+	与hive里的一样
+		start-thriftserver.sh
+		//sql command
+		beeline
+		//连接hive
+		!connect jdbc:hive2://localhost:10000
+		
+
+		
+		
 
