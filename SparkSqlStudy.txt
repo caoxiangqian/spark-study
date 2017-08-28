@@ -34,7 +34,7 @@ parquet文件操作
 	drop table people;
 	create table people (id INT, name STRING, address STRING,age INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
 	load data local inpath '/home/hadoop/people.txt' OVERWRITE into table people;
-	load data inpath /user/hadoop/people.txt OVERWRITE into table people;
+	load data inpath '/user/hadoop/people.txt' OVERWRITE into table people;
 	spark on yarn 好多坑
 
 	
