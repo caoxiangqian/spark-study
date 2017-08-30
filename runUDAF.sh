@@ -1,0 +1,1 @@
+spark-submit --class hivestudy.AvgUDAF --master yarn --jars $SPARK_HOME/lib/datanucleus-api-jdo-3.2.6.jar,$SPARK_HOME/lib/datanucleus-core-3.2.10.jar,$SPARK_HOME/lib/datanucleus-rdbms-3.2.9.jar ./spark-hive-1.0-SNAPSHOT.jar
