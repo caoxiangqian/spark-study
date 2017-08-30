@@ -67,6 +67,24 @@ thriftserver使用
 		!connect jdbc:hive2://localhost:10000
 		
 
-		
+开窗函数
+spark-sql> select * from people;
+1       tom     America 22                                                      
+2	jack	America	33
+3	john	America	17
+4	snow	America	78
+5	Sansha	Canada	2
+6	Blun	America	10
+Time taken: 15.832 seconds, Fetched 6 row(s)
+spark-sql> select *, row_number() over (partition by address order by age desc) rank from people;
+5       Sansha  Canada  2       1                                               
+4	snow	America	78	1
+2	jack	America	33	2
+1	tom	America	22	3
+3	john	America	17	4
+6	Blun	America	10	5
+Time taken: 25.496 seconds, Fetched 6 row(s)
+spark-sql> 
+
 		
 
