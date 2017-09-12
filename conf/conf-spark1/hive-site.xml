@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+	<property>
+		<name>javax.jdo.option.ConnectionURL</name>
+ 		<value>jdbc:derby:;databaseName=/home/hadoop/metastore_db;create=true</value>
+	</property>
+</configuration>
+
+
