@@ -1,0 +1,19 @@
+Hive的连接方式
+
+hive shell 
+	-e
+	-f
+
+hiveserver2: 将hive的服务变成服务端，可以通过客户端进行连接
+	后台启动：
+		hiveserver2 &
+	
+	连接方式：
+	1. beeline
+		beeline -h
+		beeline -u jdbc:hive2://hadoop1:10000 -n hadoop -p hivepwd
+		
+	2. 直接运行 beeline
+		beeline> !connect jdbc:hive2://hadoop1:10000 hive hivepwd
+		
+	3. jdbc

@@ -1,0 +1,20 @@
+Hive UDF函数
+	User define function
+	
+类型：
+	UDF: 一个参数，返回一个值
+	UDAF: 
+		多个参数，返回一个值，like count, max
+		user-defined aggregation function
+	UDTF: 一个参数，返回多个值
+	
+实现UDF:
+	编写UDF代码
+	打成jar包
+	加到hive的classpath中
+	hive> add jar 'jar path';
+	注册方法
+	hive> create temporary function dateudf as 'classurl';
+	调用方法
+
+

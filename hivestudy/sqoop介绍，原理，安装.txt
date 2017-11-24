@@ -1,0 +1,121 @@
+sqoop介绍，原理，安装
+	
+功能：
+	用于hdfs与rdbms之间数据的导入导出
+	数据分析的业务流程：
+		数据清洗：
+			字段的过滤
+			字段的补充	数据一般存储在rdbms中， 用sqoop实现
+			字段的格式化
+		数据分析后的数据存储：
+			HDFS
+			将分析好的数据导出到mysql中，供数据展示层进行读取
+	sqoop不仅仅将数据导入到hdfs:
+		hive
+		hbase
+	sqoop的底层实现理
+		使用参数来使用sqoop命令即可
+		sqoop底层封装的是一个MR程序
+		将参数传递给MR，然后进行打包，提交给yarn执行
+		只有map task, 没有reduce task
+sqoop1 和 sqoop2 不兼容
+
+
+sqoop安装
+	修改配置文件：
+		sqoop-env.sh
+			export HADOOP_COMMON_HOME=
+			export HADOOP_MAPRED_HOME=
+			export HIVE_HOME=
+	测试：
+		sqoop help
+		sqoop list-databases --connect jdbc:mysql://hadoop1:3306/mysql?useSSL=false --username root --password mypwd
+		
+		sqoop list-databases --connect jdbc:mysql://hadoop1:3306/mysql?useSSL=false --username root --P
+		
+	添加mysql的驱动包
+		
+		
+	sqoop数据导入：将mysql中的数据导入到HDFS
+		
+		在mysql中创建模拟数据：
+CREATE DATABASE test;
+create table student(id varchar(16) primary key, name varchar(32));
+
+insert into student values ('1', 'jack');
+insert into student values ('2', 'pete');
+insert into student values ('3', 'Gwen');
+insert into student values ('4', 'June');		
+	
+		使用sqoop将数据导入到hdfs
+		
+sqoop import \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table student \
+--delete-target-dir \
+--target-dir /user/hadoop/mysql_student \
+-m 1
+		
+默认输出目录为用户home目录, 指定输出目录：--target-dir
+指定maptast的个数 -m
+提前删除输出目录：--delete-target-dir
+ transfer can be faster! Use the --direct		
+		
+sqoop import \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table student \
+--delete-target-dir \
+--target-dir /user/hadoop/mysql_student \
+--direct \
+-m 1
+
+指定导入分隔符：--fields-terminated-by
+
+sqoop import \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table student \
+--delete-target-dir \
+--target-dir /user/hadoop/mysql_student \
+--direct \
+--fields-terminated-by '\t' \
+-m 1
+
+指定导入某些列：--columns
+
+sqoop import \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table student \
+--delete-target-dir \
+--target-dir /user/hadoop/mysql_student \
+--direct \
+--fields-terminated-by '\t' \
+--columns id \
+-m 1
+
+指定查询语句：--query, -e, 不能与--table一起使用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

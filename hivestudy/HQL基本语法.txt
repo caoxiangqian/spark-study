@@ -1,0 +1,128 @@
+HQL基本语法
+	where, distinct, limit
+	between and, > <, is null, is not null, in, not in
+	max, min, avg, count, sum
+	group by, having
+	
+	等值join（inner join）,不存在空数据, 
+	left join,左表为主表，右表可能有空数据 
+	right join, 与left join相反
+	full join，两表中的空数据都会出现
+	
+	
+Hive中reduce的配置
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+  
+Hive中的四种排序
+	order by： 只会启动一个reduce
+		select * from tbl3 order by num desc;
+	
+	sort by: 对每个reduce进行内部排序,如果只有一个reducer则等同于order by
+set mapreduce.job.reduces=2;
+insert overwrite local directory '/home/hadoop/sortbyrs'
+select * from tbl3 sort by num desc;
+
+	distribute by: 对数据按照某个字段进行分区，交给不同的reduce进行处理，一般
+	与sort by连用，定义shuffle过程的数据分配依据
+insert overwrite local directory '/home/hadoop/distributers'
+select * from tbl3 distribute by host sort by num desc;
+
+	cluster by: 当distribute by与sort by使用的是同一个字段时，可以使用
+	cluster by代替
+insert overwrite local directory '/home/hadoop/clusterby'
+select * from tbl3 cluster by host;	
+
+
+
+
+CREATE TABLE EMP(  
+EMPNO INT,  
+ENAME string,  
+JOB string,  
+MGR INT,
+HIREDATE string,
+SAL INT,
+COMM INT,
+DEPTNO INT)
+row format delimited fields terminated by '\t';
+
+load data local inpath '/home/hadoop/emp.txt' overwrite into table emp;
+
+CREATE TABLE DEPT(
+DEPTNO int,
+DNAME string,
+LOC string)
+row format delimited fields terminated by '\t';
+
+load data local inpath '/home/hadoop/dept.txt' overwrite into table dept;
+
+
+Hive分析函数和窗口（window）函数
+
+	功能：可以对分组后的数据进行组内每行的处理
+	格式：f_name() over (partition by col order by col)
+	example: 
+		对emp表进行薪资的降序排序：
+			select empno,ename,deptno,sal from emp order by sal desc;
+		对emp表进行每个部门的薪资降序排列，显示序号：
+			select empno,ename,deptno,sal,row_number() over (partition by deptno order by sal) as dept_sal_rank from emp;
+		显示每个部门最高的薪资
+			select empno,ename,deptno,sal,max(sal) over (partition by deptno order by sal) as max_sal from emp;
+	
+	select empno,ename,deptno,sal,rank() over (partition by deptno order by sal) as dept_sal_rank from emp;
+	
+	常用分析函数：
+		RANK
+		select empno,ename,deptno,sal,rank() 
+		over (partition by deptno order by sal) as dept_sal_rank from emp;
+		
+		ROW_NUMBER
+		DENSE_RANK
+		CUME_DIST
+		PERCENT_RANK
+		NTILE
+		
+		
+窗口函数
+	lead
+		lead(column, offset, default)
+			列		偏移量	 超出窗口的默认值
+		显示目标列的后 v2 个值
+select empno,ename,deptno,sal,lead(sal, 2, 0)
+over (partition by deptno order by sal desc)
+from emp;
+		
+	lag 与lead相反
+select empno,ename,deptno,sal,lag(sal, 2, 0)
+over (partition by deptno order by sal desc)
+from emp;
+
+	first_value
+select empno,ename,deptno,sal,first_value(sal)
+over (partition by deptno order by sal desc) as first_value
+from emp;
+
+	last_value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+	

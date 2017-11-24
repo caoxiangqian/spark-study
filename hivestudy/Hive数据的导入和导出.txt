@@ -1,0 +1,87 @@
+Hive数据的导入和导出
+
+create table if not exists tbl3(
+host string,
+num int) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+STORED AS textfile;
+
+导入：
+1. 加载本地文件到hive，拷贝文件
+	load data local inpath '/home/hadoop/log*.txt' into table tbl3; //可使用通配符加载多个文件
+	一般用于日志文件的导入
+	
+2. 加载HDFS文件到hive表，移动文件
+	load data inpath '/user/hadoop/logs' into table tbl3;
+	常用于本地文件比较大的情况
+	
+3. 覆盖表中的数据 overwrite
+	load data local inpath '/home/hadoop/log*.txt' overwrite into table tbl3; 
+	常用于临时表
+	
+4. 创建表时通过select加载数据
+	create table tbl3_sum as select host, sum(num) total from tbl3 group by host;
+	常用于临时表，作为分析结果的保存
+	
+5. 创建表以后，通过insert加载数据
+	create table tbl3_like like tbl3;
+	insert into table tbl3_like select * from tbl3 limit 5;
+	insert overwrite table tbl3_like select * from tbl3 order by num desc limit 5;
+	分析结果的导入和存储
+	
+6. 创建表时通过location加载数据
+	create table tbl4(id string, ...) location 'inpath';
+	
+LIMIT rows	
+LIMIT offset, rows //hive2.0开始支持
+
+
+导出：
+1. 通过insert命令进行导出
+	insert directory 'path' select * ...
+	导出到本地目录：
+		insert overwrite local directory '/home/hadoop/tbl3_like.txt' select * from tbl3_like; 
+		
+insert overwrite local directory '/home/hadoop/tbl3_like.txt' 
+row format delimited fields terminated by '\t'
+select * from tbl3_like; 
+
+	导出到HDFS：不加local即可, 不支持分隔符的指定
+insert overwrite directory '/user/hadoop/tbl3_like'
+select * from tbl3_like;
+
+2. 通过hdfs命令中的get操作导出数据，其实就是下载表文件
+	可下载目录或文件
+	
+3. 通过hive -e 或者 -f 执行hive语句，将执行结果重写向到文件
+	hive --database log -e 'select * from tbl3 order by num limit 3' >> /home/hadoop/result.txt
+	
+4. sqoop框架将数据导出到关系型数据库	
+
+
+import和export：用于hive表的备份
+	export table tbl3 to '/user/hadoop/tbl3export';
+	import table tbl4 from '/user/hadoop/tbl3export';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

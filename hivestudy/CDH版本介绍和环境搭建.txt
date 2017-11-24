@@ -1,0 +1,60 @@
+CDH版本介绍和环境搭建：
+
+hadoop三大发行版本：
+	1. apache hadoop
+	2. cloudera hadoop: CDH
+	3. hortonworks: HDP
+	
+选用CDH版本的好处：
+	解决了每个框架之间的兼容问题
+	不用对其他框架进行对应版本的编译
+	
+cdh5框架的下载：
+	http://archive.cloudera.com/cdh5/cdh/5/
+	
+安装部署cdh版本
+	java 环境，path
+	hadoop	
+		修改配置文件：
+			hadoop-env.sh
+				JAVA_HOME
+			core-site.xml
+				
+			hdfs-site.xml
+			mapred-site.xml
+			yarn-site.xml
+			slaves
+	Hive
+		修改配置文件：
+			hive-env.sh
+			hive-site.xml
+			log4j
+		添加mysql驱动包
+		启动
+		创建表
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

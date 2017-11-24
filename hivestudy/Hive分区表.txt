@@ -1,0 +1,35 @@
+Hive分区表：
+
+hive分区表实现的功能：
+	将表中的数据进行分区，在进行分区检索时，直接加载对应分区的数据。对于HDFS来说，多了一级
+目录。对数数据处理来说，直接处理了需要的数据，提前进行了过滤。
+
+create table if not exists tbl_log(
+host string,
+num string) 
+PARTITIONED BY (dt string COMMENT '日期')
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+STORED AS textfile;
+
+load data local inpath '/home/hadoop/log20171111.txt' into table tbl_log partition (dt='20171111');
+load data local inpath '/home/hadoop/log20171112.txt' overwrite into table tbl_log partition (dt='20171112');
+load data local inpath '/home/hadoop/log20171113.txt' overwrite into table tbl_log partition (dt='20171113');
+
+查看分区：
+show partitions tbl_log;
+
+企业中：
+分区表 + 外部表， 使用较多
+
+多级分区：
+
+create table if not exists tbl_word_count (
+host string,
+num int) 
+PARTITIONED BY (date string, hour string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+STORED AS textfile;
+load data local inpath '/home/hadoop/log20171111.txt' into table tbl_word_count partition (date='20171111', hour='13');
+
+select host,num from tbl_word_count where date = '20171111' and hour = '13';
+

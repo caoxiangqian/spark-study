@@ -1,0 +1,3 @@
+NameNode源码导读：
+
+	Namenode是rpc服务端

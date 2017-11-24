@@ -1,0 +1,69 @@
+Hive语句解析
+
+运行一条SQL语句：
+	连接元数据，判断数据库是否存在
+	判断表或分区是否存在
+	如果存在找到对应的HDFS的目录，传递给MapReduce作为输入
+	
+Mysql 主要元数据表：	
+	DBS:存储了所有的数据库信息
+	TBLS:存储了所有的表的信息
+	PARTITIONS:存储了所有分区的信息
+	SDS:存储了表和分区在HDFS上的目录
+	
+fetch task:
+	设置select执行策略，使用fetch task 还是使用MR
+	<name>hive.fetch.task.conversion</name>
+  <value>minimal</value>
+  <description>
+    Some select queries can be converted to single FETCH task minimizing latency.
+    Currently the query should be single sourced not having any subquery and should not have
+    any aggregations or distincts (which incurs RS), lateral views and joins.
+    1. minimal : SELECT STAR, FILTER on partition columns, LIMIT only
+    2. more    : SELECT, FILTER, LIMIT only (TABLESAMPLE, virtual columns)
+  </description>
+
+hive中的虚拟列：
+	INPUT__FILE__NAME: 记录所在的文件的地址
+	BLOCK__OFFSET__INSIDE_FILE: 记录在文件块中的偏移量
+	ROW__OFFSET__INSIDE__BLOCK: 行的偏移量，默认不启用
+	
+严格模式：
+	hive.mapred.mode
+	开启严格模式后的限制：
+		如果分区表不加分区过滤，不允许执行
+		限制笛卡尔积的运行，join是不使用on
+		限制bigint和string类型的比较
+		限制bigint和double类型的比较
+		使用order by，不用limit时，也不允许运行
+		
+语句解析命令：explain
+	将语句解析成语法树
+		
+select count(*), d.dname 
+from emp e right join dept d on e.deptno = d.deptno
+group by d.dname;
+
+explain select count(*), d.dname 
+from emp e right join dept d on e.deptno = d.deptno
+group by d.dname;
+		
+explain 
+select d.dname, tmp.total from dept d left join (select count(*) total, deptno deptno from emp group by deptno) tmp 
+on d.deptno = tmp.deptno;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

@@ -1,0 +1,4 @@
+Hadoop常用命令：
+
+离开安全模式：
+hdfs dfsadmin -safemode leave
