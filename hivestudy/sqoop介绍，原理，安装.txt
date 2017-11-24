@@ -104,13 +104,127 @@ sqoop import \
 
 
 
+sqoop增量导入：
+Incremental import arguments:
+   --check-column <column>        Source column to check for incremental
+                                  change
+   --incremental <import-type>    Define an incremental import of type
+                                  'append' or 'lastmodified'
+   --last-value <value>           Last imported value in the incremental
+                                  check column
+
+sqoop job
+	增量导入一般使用sqoop job来执行
+	
+sqoop job \
+--create job1 \
+-- import \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table student \
+--delete-target-dir \
+--target-dir /user/hadoop/mysql_student \
+--direct \
+--fields-terminated-by '\t' \
+--columns id \
+-m 1
+
+查看job
+sqoop-job --show job1
+
+执行job
+sqoop-job -exec job1
 
 
 
+sqoop 导入到hive中
+
+sqoop import \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table student \
+--delete-target-dir \
+--hive-import \
+--hive-home /home/hadoop/hive \
+--hive-database student \
+--hive-table stu_info \
+--fields-terminated-by '\t'
+
+	实际过程：
+		mr将mysql中的数据保存到hdfs的主目录
+		将数据从hdfs中的数据加载到hive表中
 
 
+编译安装的sqoop，build/ivy目录要删除，可能导致问题：
+	目前发现会导致hive的初始化出错，
+	
+	
+	
 
+	
+	
+	
+	
+	
+	
+sqoop导出：将hdfs(hive)中的数据导出到mysql
+	
+from hdfs:
+	
+sqoop export \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table fromhdfs \
+--export-dir /user/hive/warehouse/student.db/stu_info \
+--input-fields-terminated-by '\t' \
+-m 1
 
+from hive:
+
+sqoop export \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table fromhdfs \
+--export-dir /user/hive/warehouse/student.db/stu_info \
+--input-fields-terminated-by '\t' \
+-m 1
+	
+使用sqoop执行文件	
+	sqoop --options-file sqoop.txt
+	
+sqoop.txt: 一行一个参数，无需换行符
+export
+--connect
+jdbc:mysql://hadoop1:3306/test?useSSL=false
+--username
+root
+--password
+mypwd
+--table
+fromhdfs
+--export-dir
+/user/hive/warehouse/student.db/stu_info
+--input-fields-terminated-by
+'\t'
+-m
+1
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
