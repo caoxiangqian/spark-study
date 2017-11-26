@@ -1,0 +1,79 @@
+MySQL 5.7安装配置初化手顺CentOS 7,Redhat 7, Oracle linux, yum
+
+主要基于两个文档：
+	安装文档：https://dev.mysql.com/doc/refman/5.7/en/linux-installation-rpm.html
+	安装后的初始化：https://dev.mysql.com/doc/refman/5.7/en/postinstallation.html
+
+
+1. 安装MySQL软件源
+使用yum方式安装，CentOS自代的源不包含MySQL服务器
+
+下载MySQL yum源：
+	地址：https://dev.mysql.com/downloads/repo/yum/
+	根据需要选择：Red Hat Enterprise Linux 7 / Oracle Linux 7 (Architecture Independent), RPM Package
+	
+安装yum源：(root)
+	rpm -ivh mysql57-community-release-el7-11.noarch.rpm
+
+	
+
+yum clean all	//可选
+yum search mysql 	//如果源安装成功，搜索结果应该包含到以下内容
+	mysql-community-server.x86_64 : A very fast and reliable SQL database server
+
+2. 安装MySQL server
+	yum install -y mysql-community-server
+	
+	
+MySQL安装文件目录信息：
+	https://dev.mysql.com/doc/refman/5.7/en/linux-installation-rpm.html
+		Table 2.10 MySQL Installation Layout for Linux RPM Packages from the MySQL Developer Zone
+	
+生成的随机密码在：
+	/var/log/mysql/mysqld.log
+查看：grep 'temporary password' /var/log/mysql/mysqld.log
+
+
+
+3. 初始化数据库
+	mysqld --initialize --user=mysql
+	
+4. 启动数据库
+	sytemctl start mysqld
+	
+5. 连接数据库并重置root密码,使用随机密码登录：
+	mysql -uroot -p
+	
+	update mysql.user set host = '%', authentication_string = password('mypwd') where user = 'root';
+	flush privileges;
+
+	host = '%' //允许从任何主机登录，你也可以为不同的主机配置不同的密码
+	
+	
+	
+	
+	
+6. 如果密码忘记了：
+
+用以下命令启动mysql:
+	mysqld --skip-grant-tables
+
+再连接mysql修改密码
+
+7. 测试
+mysql> create database test;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use test;
+Database changed
+mysql> create table stu(id varchar(64), name varchar(64));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into stu values ('1', 'Penny'),('2', 'Gwen'),('3', 'Leonard'),('4', 'Sheldon');
+
+
+
+
+
+
+
