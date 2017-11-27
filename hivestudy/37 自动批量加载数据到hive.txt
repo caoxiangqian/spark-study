@@ -1,0 +1,38 @@
+37 自动批量加载数据到hive
+
+使用shell脚本批量导入数据到hives表中
+	需求：每天的日志有24个文件，每小时一个
+		logs/20171127/2017112700
+					  2017112701
+					  2017112702
+					  ...
+	通过脚本实现昨天的数据加载到hive
+	
+	编写shell脚本实现：
+		
+		获得昨天的日期
+	
+		动态的读取文件的名称：
+		
+		在脚本中执行hive的命令：
+			hive -e ""
+			hive -f file_path.sql
+			
+		导入命令：
+load data local inpath 'log_path' into table log_src partition(date='yesterday_date', hour='hour');
+
+create table log_src(
+id string,
+name string
+)
+partitioned by (date string, hour string)
+row format delimited fields terminated by '\t'
+stored as textfile;
+
+
+
+
+
+
+
+

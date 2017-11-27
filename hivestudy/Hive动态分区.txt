@@ -1,0 +1,21 @@
+Hive动态分区：
+
+静态分区：
+	
+insert into table tbl_log_clean partition(dt='20171111')
+select host, num from tbl_log where dt = '20171111';
+
+动态分区的配置：
+	hive.exec.dynamic.partition=true
+	hive.exec.dynamic.partition.mode=strict
+		strict: 严格模式
+		In strict mode, the user must specify at least one static partition in case the user accidentally overwrites all partitions.
+		
+create table tbl_log_clean2 like tbl_log;
+
+//设置非严格模式
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+
+insert into table tbl_log_clean2 partition(dt)
+select host,num,dt from tbl_log;

@@ -1,0 +1,131 @@
+用户行为案例分析：
+
+需求分析：
+	需求：统计每天每小时的pv,uv数
+	实现过程：
+		创建hive表加载源数据
+			创建分区表，两级分区
+		过滤字段，提取需要的字段
+		统计PV:
+			COUNT(URL)
+		统计UV:
+			COUNT(DISTINCT GUID)
+		生成结果表：
+			date	houre	PV	UV
+		导出到MySQL:
+			sqoop
+
+数据采集：
+
+create database log_analysis;
+use log_analysis;
+create table log_source(
+id                      string,
+url                     string,
+referer                 string,
+keyword                 string,
+type                    string,
+guid                    string,
+pageId                  string,
+moduleId                string,
+linkId                  string,
+attachedInfo            string,
+sessionId               string,
+trackerU                string,
+trackerType             string,
+ip                      string,
+trackerSrc              string,
+cookie                  string,
+orderCode               string,
+trackTime               string,
+endUserId               string,
+firstLink               string,
+sessionViewNo           string,
+productId               string,
+curMerchantId           string,
+provinceId              string,
+cityId                  string,
+fee                     string,
+edmActivity             string,
+edmEmail                string,
+edmJobId                string,
+ieVersion               string,
+platform                string,
+internalKeyword         string,
+resultSum               string,
+currentPage             string,
+linkPosition            string,
+buttonPosition          string
+)
+partitioned by (date string, hour string)
+row format delimited fields terminated by '\t'
+stored as textfile;
+
+load data local inpath '/home/hadoop/logdata/2015082818' into table log_source partition(date='20150828', hour='18');
+load data local inpath '/home/hadoop/logdata/2015082819' into table log_source partition(date='20150828', hour='19');
+
+
+数据清洗，提取字段：
+
+create table log_clear_part1(
+id string,
+url string,
+guid string
+)
+partitioned by (date string, hour string)
+row format delimited fields terminated by '\t'
+stored as textfile;
+
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+insert into table log_clear_part1 partition(date, hour)
+select id, url, guid, date, hour from log_source;
+
+
+数据分析：
+create table result_visit (
+date string,
+hour string,
+pv string,
+uv string
+);
+
+insert overwrite table result_visit select date, hour, count(url), count(distinct guid) from log_clear_part1 group by date, hour;
+
+数据导出到mysql:
+
+mysql:
+create table result_visit(
+date varchar(8) not null,
+hour varchar(2) not null,
+pv decimal(16) not null,
+uv decimal(16) not null,
+primary key(date, hour)
+);
+
+hive默认的分隔符：\001
+
+sqoop export \
+--connect jdbc:mysql://hadoop1:3306/test?useSSL=false \
+--username root \
+--password mypwd \
+--table result_visit \
+--export-dir /user/hive/warehouse/log_analysis.db/result_visit \
+--input-fields-terminated-by '\001' \
+-m 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
