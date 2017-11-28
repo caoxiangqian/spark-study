@@ -1,0 +1,46 @@
+40 hive中的case when, cast, unix_timestamp
+
+case:
+	case when:
+	第一种：
+		case col
+		when value1 then result1
+		when value2 then reuslt2
+		else reult3
+		end
+	第二种：
+		case
+		when col=value1 then result1
+		when col=value2 then result2
+		else result3
+		end
+		
+		
+select 
+ename, 
+case deptno
+when 10 then 'from 10'
+when 20 then 'from 20'
+else 'from 30'
+end part_num
+from emp;
+
+
+cast:用于hive中的数据类型转换
+	cast(col as type)
+	
+	select ename, cast(sal as string) salary from emp;
+		
+unix_timestamp:
+	unix时间戳，1970.1.1 0点到现在的秒数
+	select unix_timestamp(hiredate, 'dd-MM-YYYY'), hiredate from emp;	
+		
+from_unixtime	
+	select from_unixtime(1511840482) from emp;
+		
+		
+		
+		
+		
+		
+		

@@ -1,0 +1,1 @@
+load data local inpath '${hiveconf:LOG_FILE_PATH}/${hiveconf:FILE}' into table log.log_src partition(date='${hiveconf:DAY}', hour='${hiveconf:HOUR}')

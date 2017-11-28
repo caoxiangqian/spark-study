@@ -1,0 +1,215 @@
+45 Hive中的数据存储格式
+
+file_format:
+  : SEQUENCEFILE
+  | TEXTFILE    -- (Default, depending on hive.default.fileformat configuration)
+  | RCFILE      -- (Note: Available in Hive 0.6.0 and later)
+  | ORC         -- (Note: Available in Hive 0.11.0 and later)
+  | PARQUET     -- (Note: Available in Hive 0.13.0 and later)
+  | AVRO        -- (Note: Available in Hive 0.14.0 and later)
+  | INPUTFORMAT input_format_classname OUTPUTFORMAT output_format_classname
+
+TEXTFILE: 默认的类型
+PARQUET: 用的最多的格式
+
+存储数据的方式：
+	1	2	3
+	4	5	6
+	7	8	9
+	按行存储
+	1	2	3	4	5	6	7	8	9...
+	按列存储
+	1	4	7	2	5	8	3	6	9...
+
+使用高效的文件格式存储，在数据处理时可以尽量的减少网络和磁盘的负载
+
+对比textfile, orc, parquet
+
+创建源表：
+
+create table log_test(
+id                      string,
+url                     string,
+referer                 string,
+keyword                 string,
+type                    string,
+guid                    string,
+pageId                  string,
+moduleId                string,
+linkId                  string,
+attachedInfo            string,
+sessionId               string,
+trackerU                string,
+trackerType             string,
+ip                      string,
+trackerSrc              string,
+cookie                  string,
+orderCode               string,
+trackTime               string,
+endUserId               string,
+firstLink               string,
+sessionViewNo           string,
+productId               string,
+curMerchantId           string,
+provinceId              string,
+cityId                  string,
+fee                     string,
+edmActivity             string,
+edmEmail                string,
+edmJobId                string,
+ieVersion               string,
+platform                string,
+internalKeyword         string,
+resultSum               string,
+currentPage             string,
+linkPosition            string,
+buttonPosition          string
+)
+row format delimited fields terminated by '\t'
+stored as textfile;
+
+load data local inpath '/home/hadoop/logs-hive/20171127/2015082819' into table log_test;
+
+create table log_text(
+id                      string,
+url                     string,
+referer                 string,
+keyword                 string,
+type                    string,
+guid                    string,
+pageId                  string,
+moduleId                string,
+linkId                  string,
+attachedInfo            string,
+sessionId               string,
+trackerU                string,
+trackerType             string,
+ip                      string,
+trackerSrc              string,
+cookie                  string,
+orderCode               string,
+trackTime               string,
+endUserId               string,
+firstLink               string,
+sessionViewNo           string,
+productId               string,
+curMerchantId           string,
+provinceId              string,
+cityId                  string,
+fee                     string,
+edmActivity             string,
+edmEmail                string,
+edmJobId                string,
+ieVersion               string,
+platform                string,
+internalKeyword         string,
+resultSum               string,
+currentPage             string,
+linkPosition            string,
+buttonPosition          string
+)
+stored as textfile;
+
+insert overwrite table log_text select * from log_test;
+
+
+create table log_orc(
+id                      string,
+url                     string,
+referer                 string,
+keyword                 string,
+type                    string,
+guid                    string,
+pageId                  string,
+moduleId                string,
+linkId                  string,
+attachedInfo            string,
+sessionId               string,
+trackerU                string,
+trackerType             string,
+ip                      string,
+trackerSrc              string,
+cookie                  string,
+orderCode               string,
+trackTime               string,
+endUserId               string,
+firstLink               string,
+sessionViewNo           string,
+productId               string,
+curMerchantId           string,
+provinceId              string,
+cityId                  string,
+fee                     string,
+edmActivity             string,
+edmEmail                string,
+edmJobId                string,
+ieVersion               string,
+platform                string,
+internalKeyword         string,
+resultSum               string,
+currentPage             string,
+linkPosition            string,
+buttonPosition          string
+)
+stored as orc;
+
+insert overwrite table log_orc select * from log_test;
+
+
+create table log_parquet(
+id                      string,
+url                     string,
+referer                 string,
+keyword                 string,
+type                    string,
+guid                    string,
+pageId                  string,
+moduleId                string,
+linkId                  string,
+attachedInfo            string,
+sessionId               string,
+trackerU                string,
+trackerType             string,
+ip                      string,
+trackerSrc              string,
+cookie                  string,
+orderCode               string,
+trackTime               string,
+endUserId               string,
+firstLink               string,
+sessionViewNo           string,
+productId               string,
+curMerchantId           string,
+provinceId              string,
+cityId                  string,
+fee                     string,
+edmActivity             string,
+edmEmail                string,
+edmJobId                string,
+ieVersion               string,
+platform                string,
+internalKeyword         string,
+resultSum               string,
+currentPage             string,
+linkPosition            string,
+buttonPosition          string
+)
+stored as parquet;
+
+insert overwrite table log_parquet select * from log_test;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
