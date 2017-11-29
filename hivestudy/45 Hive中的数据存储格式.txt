@@ -68,7 +68,7 @@ buttonPosition          string
 row format delimited fields terminated by '\t'
 stored as textfile;
 
-load data local inpath '/home/hadoop/logs-hive/20171127/2015082819' into table log_test;
+load data local inpath '/home/hadoop/logs-hive/20171127/2015082819' overwrite into table log_test;
 
 create table log_text(
 id                      string,
