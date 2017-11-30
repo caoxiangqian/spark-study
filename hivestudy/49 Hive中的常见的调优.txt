@@ -1,0 +1,42 @@
+49 Hive中的常见的调优
+
+数据倾斜和优化：
+常见的优化：
+	大表转化为小表，充分利用临时表
+	合理的利用分区表 和 外部表
+	数据存储格式，压缩的配置
+	sql语句的优化：
+		join
+			尽量使用map join
+		filter	
+			先过滤，再处理
+	开启并行
+		hive.exec.parallel=true
+		hive.exec.parallel.thread.number=8  //default
+	开启jvm重用,调整为合理的值
+		mapreduce.job.jvm.numtasks=1 //default
+	map和reduce的个数
+		map的个数：
+			默认一个文件块一个maptask
+			min(split.size.max, max(block_size, split.size.min))
+			通过更改分片的大小来修改map task的个数，不能修改block_size
+		reduce
+			0.95-1.75*节点数量*每个节点的最大容器数
+			工作中：进行合理的采样，设置reduce的个数
+	开启推测执行：
+		hive中默认是开启的
+			hive.mapred.reduce.tasks.speculative.execution
+		mapreduce:
+			mapreduce.map.speculative
+			mapreduce.reduce.speculative
+			
+	启动hive的本地模式：
+		hive.exec.mode.local.auto=true
+		开启本地模式后，符合条件的job中在当前计算节点执行，不会提交到集群去执行
+		条件：
+			输入的数据不能大于128M
+			map的个数小于4
+			reduce只能有一个
+			
+			
+			

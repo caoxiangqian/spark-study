@@ -1,0 +1,23 @@
+46 hive中的压缩存储
+	hive的压缩存储依赖于hadoop的压缩
+	常见的压缩格式：
+		snappy, lzo, lz4
+	Hadoop中使用压缩的特点：
+		减少磁盘io的负载 
+		减少网络io的负载
+		提升全局的数据处理效率
+		压缩算法必须支持可分割性
+			reduce对单个数据块可以解压缩
+	MapReduce的流程：
+		input	压缩
+		map
+		shuffle
+			spill
+				分区：决定当前的值交给哪个reduce处理
+				排序：自定义排序，两种方法
+			merge
+				排序：
+				分给：相同key的value变成集合
+		reduce
+		output
+

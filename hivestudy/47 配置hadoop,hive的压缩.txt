@@ -1,0 +1,58 @@
+47 配置hadoop的压缩
+	
+	
+检查hadoop是否支持压缩：
+	hadoop checknative
+	
+配置hadoop支持snappy压缩
+	在linux中安装snappy库
+	编译hadoop-snappy
+		得到jar包和linux本地库
+	编译hadoop支持snappy压缩：
+		-Drequire.snappy
+	将jar包放入hadoop的目录下
+	
+配置mapreduce中map的输出进行压缩
+mapred-default.xml
+	mapreduce.map.output.compress=true
+	mapreduce.map.output.compress.codec=org.apache.hadoop.io.compress.SnappyCodec
+	
+	默认不压缩运行
+	yarn jar share/hadoop/mapreduce/hadoop-mapreduce-example*.jar wordcount /user/hadoop/input /user/hadoop/output
+	
+	压缩运行，使用-D参数传递配置
+	yarn jar share/hadoop/mapreduce/hadoop-mapreduce-example*.jar wordcount -Dmapreduce.map.output.compress=true -Dmapreduce.map.output.compress.codec=org.apache.hadoop.io.compress.SnappyCodec /user/hadoop/input /user/hadoop/output
+	
+	
+配置hive中的压缩：
+	map的输出进行压缩：
+		配置hadoop
+		配置hive
+			hive.exec.compress.intermediate=true  //hive中间结果集的压缩
+	mapreduce输出进行压缩
+		配置hadoop
+		配置hive
+			hive.exec.compress.output
+			
+hive数据文件格式+压缩：
+	orc+snappy:
+		stored as orc tblproperties ("orc.compress"="SNAPPY")
+	parquet+snappy
+		set parquet.compression=SNAPPY;
+		
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
