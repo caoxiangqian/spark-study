@@ -1,0 +1,40 @@
+hive中的数据倾斜和解决方案
+
+数据倾斜：
+	处理大量数据的过程中，其中一个值过多，导致某些task任务迟迟不能完成，影响整个job的运行
+	
+产生原因：
+	join
+		map join
+			小表与大表的join，小表会被读入内存，与大表进行join
+			使用方式：
+				第一种：
+					hive.auto.convert.auto=true
+					如果hive判断符合小表的条件，会自动使用map join
+					hive.mapjoin.smalltable.filesize=25000000
+				第二种：
+					指定一张表为小表，进行map join
+						/*MapJOIN(tablename)*/
+		reduce join:
+			大表join大表，效率比较低
+		SMB join： sort merge bulked join, 适用于大表join大表
+			桶join
+			cluster
+			开启桶join:
+				hive.auto.convert.sortmerge.join=true
+	group by(distinct), distinct是用group by实现的
+		hive.map.aggr
+			默认就是true
+			实际就是开启了map端的combiner, 提前进行一次
+		hive.groupby.skewindata=true
+			默认false,需要手动开启
+			实际功能：在进行分区时不按照hash值取余进行分区，而是随机分区
+			随机分区进行一次处理聚合，再启动一个mapreduce，做再一次聚合处理
+	
+	
+	
+	
+	
+	
+	
+	

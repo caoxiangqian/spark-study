@@ -1,0 +1,9 @@
+Snappy使用
+	http://google.github.io/snappy/
+	
+	https://github.com/google/snappy
+	
+安装参考：
+	http://www.micmiu.com/bigdata/hadoop/hadoop-snappy-install-config/
+
+

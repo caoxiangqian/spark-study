@@ -1,0 +1,44 @@
+52 Hive中使用正则加载数据
+
+drop table apachelog;
+CREATE TABLE apachelog (
+remote_addr string,
+remote_user string,
+time_local string,
+request string,
+status string,
+body_bytes_sent string,
+request_body string,
+http_referer string,
+http_user_agent string,
+http_x_forwarded_for string,
+host string
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.RegexSerDe'
+WITH SERDEPROPERTIES (
+  "input.regex" = "(\"[^ ]*\") (\"[-|^ ]*\") (\"[^\"]*\") (\"[^\"]*\") (\"[0-9]*\") (\"[0-9]*\")( [-|^ ]* )(\"[^ ]*\") (\"[^\"]*\") (\"[-|^ ]*\") (\"[^ ]*\")"
+)
+STORED AS TEXTFILE;
+
+load data local inpath '/home/hadoop/apachelog/access.log' overwrite into table apachelog; 
+
+
+
+select remote_addr,status,host,count(*) as total from apachelog group by remote_addr,status,host order by total limit 100;
+select status,count() as total from apachelog group by status order by total limit 100;
+status	total
+"301"	1
+"504"	13
+"503"	19
+"206"	77
+"404"	118
+NULL	513
+"303"	583
+"304"	1191
+"200"	3279
+
+select count(*) from apachelog;
+
+
+
+
