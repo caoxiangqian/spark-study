@@ -1,0 +1,4 @@
+53 使用Python脚本进行预处理数据
+
+测试案例：
+https://cwiki.apache.org/confluence/display/Hive/GettingStarted#GettingStarted-MovieLensUserRatings

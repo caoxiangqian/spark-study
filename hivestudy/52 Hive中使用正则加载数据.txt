@@ -38,7 +38,7 @@ NULL	513
 "200"	3279
 
 select count(*) from apachelog;
-
+5794
 
 
 
