@@ -1,0 +1,29 @@
+kafka:
+	Message Queue,消息队列，类似于一个大大的缓存，数据存储在磁盘上
+	
+topic:
+	就好比在一个数据库里建的表
+	topic也支持分区，默认是一个分区
+	partition
+	消费时可以一个线程消费一个分区
+	
+kafka集群
+	kafka其实是一个集群，不是主从式的架构
+	kafka集群的每一个节点叫做 broker(代理，经纪人)
+	
+	kafka按topic分别存储消息
+	topic下的消息还可以按partition存储消息
+	消费时可以以分区并行消费
+	
+	producer: 消息生产者
+	consumer: 消息消费者
+	broker: 代理，kafka集群当中的一台服务器（节点）
+	partition: 
+		topic下的分区
+		1 可以提高性能，并行消费
+		2. 可以解决磁盘瓶颈的问题
+	message: 消息，就是数据，是通信的最基本的单位
+	
+	
+
+	
