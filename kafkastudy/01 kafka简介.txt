@@ -25,5 +25,45 @@ kafka集群
 	message: 消息，就是数据，是通信的最基本的单位
 	
 	
+	
+Kafka简介（scala开发）：
+	kafka是linkedin出的一个开源软件。是一个 分布式 的消息系统
+	支持多种语言进行开发（c++, java, python, scala等）
+	
+	Scala的作者是JVM的作者之一。scala也运行在jvm之上。
+	
+	
+	Java: 
+		成熟的产品：HBase hadoop hive等等
+		成熟的三大框架： ssm, ssh
+		目前还是难以被替代
+	.net
+	java
+	php(不能架构大型项目)
+	移动开发（android, ios）， 大数据（java）
+	
+	scala
+		面向对象（面向过程）
+		面向函数
+		给聪明人使用的！！！
+		kafka, spark, Flink
+		
+	python:
+		企业级开发，
+		网络爬虫（封装好了工具）
+		数据分析（机器学习，深度学习）
+		运维
+		大数据的工具对python非常的友好，几乎所有的工具都支持
+		python2 -> python3  有区别
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	

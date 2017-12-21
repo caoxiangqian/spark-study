@@ -1,0 +1,21 @@
+02 消息系统的好处
+
+解耦合
+扩展性
+可恢复性
+峰值处理能力
+
+Kafka(Storm / SparkStreaming)实时处理的时候去使用
+
+
+消息队列的分类：
+	订阅模式：publish-subscribe, 类似群聊
+	点对点模式： point-to-point, 类似私聊
+	
+kafka基于订阅模式
+
+
+数据的处理方式：
+	push
+	pull:
+		按需取数据，所以kafka设计的时候，用的是pull
