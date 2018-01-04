@@ -5,13 +5,23 @@
 	写数据：
 		需要broker的地址
 	读数据：
-		需要zookeeper的地址
+		需要zookeeper或者broker的地址
 
 
+先启动zookeeper集群
+zkServer.sh start
 
+启动kafka,在每个节点上执行
+bin/kafka-server-start.sh config/server.properties
 
+创建一个topic
+bin/kafka-topics.sh --create --zookeeper hadoop1:2181 --replication-factor 1 --partitions 1 --topic test
 
+生产者
+bin/kafka-console-producer.sh --broker-list hadoop1:9092,hadoop2:9092,hadoop3:9092 --topic test
 
+消费者
+bin/kafka-console-consumer.sh --bootstrap-server hadoop1:9092,hadoop2:9092,hadoop3:9092 --topic test --from-beginning
 
 
 
