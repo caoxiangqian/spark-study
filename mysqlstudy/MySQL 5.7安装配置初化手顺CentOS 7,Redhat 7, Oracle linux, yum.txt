@@ -29,25 +29,31 @@ MySQL安装文件目录信息：
 	https://dev.mysql.com/doc/refman/5.7/en/linux-installation-rpm.html
 		Table 2.10 MySQL Installation Layout for Linux RPM Packages from the MySQL Developer Zone
 	
-生成的随机密码在：
-	/var/log/mysql/mysqld.log
-查看：grep 'temporary password' /var/log/mysql/mysqld.log
+
 
 
 
 3. 初始化数据库
 	mysqld --initialize --user=mysql
 	
+	生成的随机密码在：
+	/var/log/mysql/mysqld.log
+查看：grep 'temporary password' /var/log/mysql/mysqld.log
 4. 启动数据库
-	sytemctl start mysqld
+	systemctl start mysqld
 	
 5. 连接数据库并重置root密码,使用随机密码登录：
 	mysql -uroot -p
+	1、 修改用户密码
+	mysql> alter user 'root'@'localhost' identified by 'youpassword';  
+	或者
+	mysql> set password=password("youpassword");
 	
-	update mysql.user set host = '%', authentication_string = password('mypwd') where user = 'root';
 	flush privileges;
 
 	host = '%' //允许从任何主机登录，你也可以为不同的主机配置不同的密码
+	update mysql.user set host = '%', authentication_string = password('mypwd') where user = 'root';
+	update mysql.user set host = '%' where user = 'root';
 	
 	
 	
